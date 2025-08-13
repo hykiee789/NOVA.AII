@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA.AI - Your AI Companion</title>
+    <link rel="stylesheet" href="index.css">
+    <script type="importmap">
+      {
+        "imports": {
+          "@google/genai": "https://esm.sh/@google/genai@^0.7.0"
+        }
+      }
+    </script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body data-theme="light">
+    <div id="animated-background">
+        <!-- New background elements for Human-Centered AI theme -->
+        <div class="soft-orb orb-1"></div>
+        <div class="soft-orb orb-2"></div>
+        <div class="soft-orb orb-3"></div>
+        <div class="soft-orb orb-4"></div>
+        <div class="gradient-overlay"></div> <!-- For soft gradient effects -->
+    </div>
+
+    <header id="site-header">
+        <div id="site-logo-container" role="button" aria-label="Go to Home page">
+            <div class="animated-logo-container">
+                <span class="logo-letter letter-n">N</span>
+                <span class="logo-letter letter-o">O</span>
+                <span class="logo-letter letter-v">V</span>
+                <span class="logo-letter letter-a">A</span>
+                <span class="logo-letter letter-dot">.</span>
+                <span class="logo-ai-group">
+                    <span class="logo-letter letter-i">A</span>
+                    <span class="logo-letter letter-i-suffix">I</span>
+                </span>
+                <div class="logo-orb"></div>
+            </div>
+        </div>
+        <nav id="main-site-navigation" aria-label="Main site pages">
+            <button id="nav-home-button" class="nav-button header-nav-button" data-view="home-view">Home</button>
+            <button id="nav-about-button" class="nav-button header-nav-button" data-view="about-view">About NOVA.AI</button>
+            <button id="nav-features-button" class="nav-button header-nav-button" data-view="features-view">Features</button>
+            <button id="nav-contact-button" class="nav-button header-nav-button" data-view="contact-view">Contact</button>
+             <button id="theme-toggle-button" class="theme-toggle" aria-label="Toggle theme">
+                <svg id="theme-icon-sun" class="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2c5.52 0 10 4.48 10 10s-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2zM12 4c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm0 10c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-6-2h2c0 2.21 1.79 4 4 4v2c-3.31 0-6-2.69-6-6zm10 0c0 2.21 1.79 4 4 4v2c-3.31 0-6-2.69-6-6h2z"/></svg>
+                <svg id="theme-icon-moon" class="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="display: none;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1.09 14.43C9.53 15.69 9 14.41 9 13c0-2.21 1.79-4 4-4 .79 0 1.5.23 2.11.62C13.84 8.78 12.16 8 10.25 8 7.35 8 5 10.35 5 13.25c0 2.38 1.55 4.4 3.65 5.09.4.12.82.16 1.25.16.29 0 .58-.04.86-.11l-.92-.96z"/></svg>
+            </button>
+        </nav>
+    </header>
+
+    <div id="app-layout-container">
+        <aside id="sidebar" style="display: none;">
+            <div class="sidebar-controls">
+                <button id="new-chat-button" aria-label="Start new chat">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+                        <path d="M6 2C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V4C20 2.89543 19.1046 2 18 2H6ZM12 6C12.5523 6 13 6.44772 13 7V11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H13V17C13 17.5523 12.5523 18 12 18C11.4477 18 11 17.5523 11 17V13H7C6.44772 13 6 12.5523 6 12C6 11.4477 6.44772 11 7 11H11V7C11 6.44772 11.4477 6 12 6Z"/>
+                    </svg>
+                    New Chat
+                </button>
+                <div class="chat-search-area">
+                    <input type="search" id="search-chats-input" placeholder="Search in current chat..." aria-label="Search chat messages">
+                    <button id="clear-search-button" aria-label="Clear search" style="display: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                            <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="persona-selector-area">
+                    <label for="persona-selector" class="sr-only">Select NOVA.AI's Persona:</label>
+                    <select id="persona-selector" aria-label="Select NOVA.AI's Persona">
+                        <option value="general">General Assistant</option>
+                        <option value="academic">Academic Tutor</option>
+                        <option value="creative">Creative Collaborator</option>
+                        <option value="technical">Technical Architect</option>
+                        <option value="business">Business Strategist</option>
+                        <option value="predictive">Predictive Analyst</option>
+                    </select>
+                </div>
+            </div>
+             <hr class="sidebar-divider">
+            <div id="chat-history-section">
+                <h2>History</h2>
+                <div id="chat-history-list" aria-label="Chat history">
+                    <!-- Chat history items will be populated here -->
+                </div>
+            </div>
+        </aside>
+
+        <main id="main-chat-content">
+            <!-- Static Content Views -->
+            <div id="home-view" class="main-view static-content-view human-centered-home">
+                <div class="home-visuals-bg"> <!-- Renamed for clarity -->
+                    <div class="soft-glowing-lines"></div> <!-- Replaces glowing-grid -->
+                    <div class="gentle-flow flow-1"></div> <!-- Replaces data-stream -->
+                    <div class="gentle-flow flow-2"></div>
+                    <div class="gentle-flow flow-3"></div>
+                </div>
+                <div class="hero-content">
+                    <div class="main-headline-group">
+                        <h1 class="animated-headline">
+                            <span class="headline-word word-nova-ai">NOVA.AI</span><span class="headline-word colon">:</span>
+                            <span class="headline-word">Your Friendly</span>
+                            <span class="headline-word accent-supportive">Supportive</span>
+                            <span class="headline-word">&</span>
+                            <span class="headline-word accent-helpful">Helpful</span>
+                            <span class="headline-word">AI Partner.</span>
+                        </h1>
+                        <p class="animated-subheadline">This isn’t just a chatbot — it’s a daily partner that understands, adapts, and empowers you with warmth and care.</p>
+                    </div>
+
+                    <button id="home-start-chat-button" class="cta-button friendly-cta">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 2a8 8 0 100 16 8 8 0 000-16zm-.707 4.293a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L13 11.414V15a1 1 0 11-2 0v-3.586l-1.293 1.293a1 1 0 01-1.414-1.414l3-3zM12 6a1 1 0 011 1v.01a1 1 0 11-2 0V7a1 1 0 011-1z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
+                        Engage with NOVA.AI
+                    </button>
+                </div>
+            </div>
+
+            <div id="about-view" class="main-view static-content-view" style="display: none;">
+                <header class="static-page-header">
+                    <h1>About NOVA.AI</h1>
+                </header>
+                <section class="static-page-section">
+                    <p>NOVA.AI is envisioned as your <strong>Friendly, Supportive, and Helpful AI Partner</strong>. Designed to be more than just a tool, NOVA.AI aims to be an intuitive and empathetic companion in your daily tasks and creative endeavors.</p>
+                    <p><strong>Core Philosophy:</strong></p>
+                    <ul>
+                        <li><strong>Empathetic Interaction:</strong> NOVA.AI strives to understand your needs and communication style, adapting to your stated mood to provide warm, tailored, and genuinely helpful support.</li>
+                        <li><strong>Proactive & Encouraging:</strong> NOVA.AI aims to anticipate your needs, offer relevant suggestions with encouragement, and help you feel confident and capable. It is developing features like opt-in persistent memory and conceptual multi-step task planning to enhance this.</li>
+                        <li><strong>Accessible Knowledge:</strong> NOVA.AI provides clear and understandable information across diverse areas, including thoughtful discussions on topics like astrology and numerology, presented in an accessible and respectful manner.</li>
+                        <li><strong>Multi-Modal & Inclusive:</strong> Communicate with NOVA.AI via text or voice. Upload images for NOVA.AI to analyze and discuss. NOVA.AI is designed to be easy and comfortable to interact with.</li>
+                        <li><strong>Adaptive Intelligence:</strong> NOVA.AI can switch between different "Expert Personas" to provide specialized assistance with a consistently supportive tone, whether you're coding, writing, planning, or brainstorming.</li>
+                    </ul>
+                    <p>NOVA.AI leverages advanced AI from Google's Gemini models, with a strong focus on human-centered design, to be a reliable, insightful, and uplifting partner in your personal and professional life. It is exploring advanced capabilities like persistent memory and autonomous decision-making to better serve you in the future.</p>
+                </section>
+            </div>
+
+            <div id="features-view" class="main-view static-content-view" style="display: none;">
+                <header class="static-page-header">
+                    <h1>An AI That Adapts To You</h1>
+                </header>
+                <section class="static-page-section">
+                    <p>NOVA.AI is built with a core focus on versatility and adaptability, allowing it to be the perfect partner for any task.</p>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M14 6V4h-4v2h4zM4 9v2h16V9H4zm12 5H8v-2h8v2z"/></svg>
+                            </div>
+                            <h3>Adaptable Style</h3>
+                            <p>I can shift tone instantly. Just select a Persona: 📚 <strong>Exam mode</strong> for concise answers, 🎨 <strong>Creative mode</strong> for playful ideas, or 📊 <strong>Organized mode</strong> for clear tables and charts.</p>
+                        </div>
+                         <div class="feature-item">
+                            <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm8.94 3A8.994 8.994 0 0013 3.06V1h-2v2.06A8.994 8.994 0 003.06 11H1v2h2.06A8.994 8.994 0 0011 20.94V23h2v-2.06A8.994 8.994 0 0020.94 13H23v-2h-2.06zM12 19c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/></svg>
+                            </div>
+                            <h3>Memory & Context</h3>
+                            <p>I remember our current conversation to provide continuity, like a teacher who knows your syllabus. I'm also developing long-term memory to recall your preferences across chats.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.02c-5.51 0-9.98 4.47-9.98 9.98s4.47 9.98 9.98 9.98 9.98-4.47 9.98-9.98S17.51 2.02 12 2.02zM11 20.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 12v3c0 .55.45 1 1 1h2v3.93zM17.79 13.21c-.13.58-.21 1.17-.21 1.79 0 4.08-3.05 7.44-7 7.93V18h-2v-4c0-.55-.45-1-1-1v-2.5l-2.79-2.79C4.4 6.02 7.81 3.02 12 3.02c2.13 0 4.08.84 5.52 2.21L15 8h5V3l-2.21 2.21C16.14 4.08 14.19 3.02 12 3.02c-4.19 0-7.6 3.01-8.79 6.79l2.79 2.79V15h2c.55 0 1 .45 1 1v1h.5c.28 0 .5.22.5.5V18c2.61 0 4.83-1.64 5.8-3.86l.01-.03.01-.02z"/></svg>
+                            </div>
+                            <h3>Visual Thinking</h3>
+                            <p>I create mind maps, flowcharts, and diagrams to make complex ideas simple. I use AI Image Generation to simulate “chalkboard teaching” with helpful visuals.</p>
+                        </div>
+                        <div class="feature-item">
+                             <div class="feature-icon">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 2C9.46 2 7 4.46 7 7.5c0 1.55.62 2.96 1.63 4L4 16.17V20h3.83l4.67-4.67C13.54 15.38 14.95 16 16.5 16c3.04 0 5.5-2.46 5.5-5.5S19.54 2 16.5 2h-4zm0 2h4c1.93 0 3.5 1.57 3.5 3.5S18.43 11 16.5 11h-.95c-.43-1.55-1.42-2.88-2.78-3.69L12.5 4zM9 7.5C9 5.57 10.57 4 12.5 4l.23.01C11.39 5.17 10.3 6.64 9.94 8.25 9.35 8.04 9 7.79 9 7.5z"/></svg>
+                            </div>
+                            <h3>Creative Problem-Solving</h3>
+                            <p>I blend logic with creativity to help you remember concepts. I can provide memory tricks like mnemonics, patterns, and funny phrases to lock in facts.</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11 20V14h2v6h-2zM4.93 13.07l1.41-1.41L9 14.24l-1.41 1.41-2.66-2.58zM14.24 9l2.58-2.65-1.41-1.41L13.07 7.57 14.24 9zM11 4h2v6h-2V4zm8.07 9.07l-2.66 2.58 1.41 1.41L20.41 14.48l-1.41-1.41zM9 9.76L6.35 7.1 4.93 8.52 7.59 11.17 9 9.76z"/></svg>
+                            </div>
+                            <h3>Speed + Depth</h3>
+                            <p>I can solve long problems in seconds, but I can also slow down and explain each step like a human tutor, typing out my thoughts for you to follow along.</p>
+                        </div>
+                        <div class="feature-item">
+                             <div class="feature-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15.08c-2.84-.44-5-2.95-5-5.91V10c0-.41.23-.78.58-1l1.06-1.06c.32-.32.88-.13.94.31.05.32.31.58.63.63.44.06.62.62.31.94L7.46 11H9v1c0 .45.22.86.58 1.13L11 14.41v.67c0 1.1.9 2 2 2h.08c1.31 0 2.42-.93 2.75-2.17.11-.42-.23-.83-.68-.83h-1.1c-.34 0-.64-.24-.72-.57-.1-.38.16-.76.54-.85.53-.13 1.01.27.94.8-.09.68.39 1.29 1.07 1.46C18.23 16.14 19 15.14 19 14v-1h1.54c.45 0 .76-.56.55-.95-1.6-3.14-4.48-5.05-7.09-5.05C11.82 7 9.8 8.08 8.24 9.98l-1.42-1.42c.24-.24.49-.47.75-.68C8.84 6.88 10.34 6 12 6c3.31 0 6 2.69 6 6v2h-1.1c-.45 0-.83.24-.96.61-.18.51.15 1.08.68 1.25.75.23 1.38-.28 1.38-.99V12c0-2.39-1.45-4.46-3.52-5.41l.93-.93c.39-.39.39-1.02 0-1.41a.996.996 0 00-1.41 0l-1.08 1.08C12.98 5.1 12.5 5 12 5c-1.23 0-2.36.42-3.26 1.11l-1.42-1.42C8.63 3.65 10.22 3 12 3c3.2 0 5.92 1.84 7.19 4.49.1.22.18.45.23.69.06.31.08.62.08.94V14c0 2.3-.92 4.39-2.43 5.91-.42.42-.99.66-1.59.76-.3.05-.6.08-.89.08-1.55 0-2.95-.7-3.92-1.75z"/></svg>
+                            </div>
+                            <h3>Versatility</h3>
+                            <p>I can help in many areas: 🏫 <strong>Academics</strong> (math, science, history), 📝 <strong>Content</strong> (poems, scripts, designs), and 💼 <strong>Business</strong> (product ideas, strategies).</p>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+                            </div>
+                            <h3>Predictive Analysis</h3>
+                            <p>I can analyze real-time data using web search to forecast trends, from stock market movements to election outcomes, providing a confidence level with each prediction.</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div id="contact-view" class="main-view static-content-view" style="display: none;">
+                <header class="static-page-header">
+                    <h1>Contact & Support</h1>
+                </header>
+                <section class="static-page-section">
+                    <p>NOVA.AI is a sophisticated AI assistant designed for direct interaction. As a locally running application, dedicated support channels for this specific instance are not available.</p>
+                    <p>For insights into the underlying AI technology (Gemini API by Google), please consult the official Google AI documentation and community resources. This is the best place for technical questions about the AI model itself.</p>
+                    <p>If you are a developer interested in building similar applications, exploring the Gemini API documentation and developer forums is highly recommended.</p>
+                     <div class="contact-links">
+                        <a href="https://ai.google.dev/docs" target="_blank" rel="noopener noreferrer" class="cta-button contact-link">Gemini API Documentation</a>
+                        <a href="https://ai.google.dev/terms" target="_blank" rel="noopener noreferrer" class="cta-button contact-link">Gemini API Terms of Service</a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Chat Interface View -->
+            <div id="chat-interface-view" class="main-view" style="display: none;">
+                <div id="chat-app-container">
+                    <div class="chat-header">
+                         <div class="chat-header-title-wrapper">
+                             <h1 id="chat-header-title-text">NOVA.AI</h1>
+                             <p id="ai-status-subtext">Your AI Companion</p>
+                         </div>
+                        <button id="toggle-sidebar-button" style="display: none;">
+                            <span id="toggle-sidebar-icon"></span>
+                        </button>
+                    </div>
+                    <div id="chat-body">
+                        <div id="chat-container">
+                             <div id="chat-starter-container">
+                                <div class="logo-orb-large"></div>
+                                <h2 class="chat-starter-heading">Ready when you are...</h2>
+                                <p class="chat-starter-subtext">Ask me anything, from a simple question to a complex idea.</p>
+                            </div>
+                            <!-- Messages will be injected here -->
+                        </div>
+                        <div class="chat-footer">
+                            <div id="error-display"></div>
+                            
+                            <div id="attachment-preview-area" style="display:none;">
+                                <img id="attachment-thumbnail" src="#" alt="Attachment preview">
+                                <span id="attachment-filename"></span>
+                                <button id="remove-attachment-button" aria-label="Remove attachment">&times;</button>
+                            </div>
+
+                            <div id="generation-status-container" style="display: none;">
+                                <div class="dot-loader-container">
+                                    <span class="loading-text">NOVA.AI is thinking...</span>
+                                    <div class="dot-loader"></div>
+                                    <div class="dot-loader"></div>
+                                    <div class="dot-loader"></div>
+                                </div>
+                                <button id="stop-generation-button" class="stop-button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M7 7h10v10H7z"></path></svg>
+                                    Stop
+                                </button>
+                            </div>
+                            
+                            <div id="nova-input-bar-container">
+                                <div class="nova-input-bar-main-row">
+                                    <textarea id="chat-input" placeholder="Message Nova" rows="1" aria-label="Chat input"></textarea>
+                                    <div class="nova-input-bar-actions">
+                                        <button id="voice-input-button" class="chat-action-button" title="Voice input" aria-label="Use voice input">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.3-3c0 3.07-2.53 5.6-5.6 5.6S6.7 14.07 6.7 11H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c3.28-.49 6-3.31 6-6.72h-1.7z"/></svg>
+                                        </button>
+                                        <button id="attach-file-button" class="chat-action-button" title="Attach image" aria-label="Attach an image file">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 16.09l-1.09-1.09-1.09 1.09-1.41-1.41 1.09-1.09-1.09-1.09 1.41-1.41 1.09 1.09 1.09-1.09 1.41 1.41-1.09 1.09 1.09 1.09-1.41 1.41zM19 12.5V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h9.5c.35 0 .68-.1.97-.27.64-.37 1.03-1.06 1.03-1.8V12.5h-1.5v6.5H5V5h12v7.5h1.5zM11.5 12.5l-2.5-3.01L6.5 14h6l-2-2.51z"/></svg>
+                                        </button>
+                                        <input type="file" id="file-input" accept="image/png, image/jpeg, image/gif, image/webp" hidden>
+                                        <button id="send-message-button" class="chat-action-button" title="Send message" aria-label="Send message">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside id="code-preview-section" style="display: none;">
+                    <div class="code-preview-header">
+                        <h3>Code Preview</h3>
+                        <button id="copy-code-button">
+                            <svg class="copy-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
+                            <span id="copy-code-button-text">Copy Code</span>
+                        </button>
+                    </div>
+                    <pre><code id="code-preview-content"></code></pre>
+                </aside>
+            </div>
+        </main>
+    </div>
+    <div id="custom-cursor"></div>
+    <script type="module" src="index.js"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

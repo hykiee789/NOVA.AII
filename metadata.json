@@ -1,0 +1,8 @@
+{
+  "name": " Copy of NOVA.AI - Your AI Companion         its different ",
+  "description": "A professional website featuring NOVA.AI, an intelligent AI assistant powered by Gemini, ready to answer your questions and assist with various tasks, including advanced conceptual features like persistent memory and multi-step decision-making.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "prompt": ""
+}
